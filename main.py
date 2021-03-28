@@ -1,6 +1,6 @@
-import Card
-import Dealer
-import Player
+from Card import *
+from Dealer import *
+from Player import *
 import time
 import random
 
@@ -18,14 +18,28 @@ while not inputCheck:
 if numOfPlayers > 3:
     numOfPlayers = 3
 
-print(numOfPlayers)
-
 # create that many players
-playerNames = ["player1", "player2", "player3"]
-for x in range(numOfPlayers):
-    print(playerNames[x])
-    playerNames[x] == Player(0)
+if numOfPlayers == 3:
+    p1 = Player(0)
+    p2 = Player(0)
+    p3 = Player(0)
+elif numOfPlayers == 2:
+    p1 = Player(0)
+    p2 = Player(0)
+elif numOfPlayers == 1:
+    p1 = Player(0)
+else:
+    pass
 
-# distribute initial cards to dealer & players
-# choose hit of hold
+# Function to create a new card
+int(input("Enter a number for how many decks you want to play with: "))
+# Once card is used add to dictionary
+
+# Check if card has been used
+
+
+# Hit function
+
+# Hold function
+
 # compare scores
