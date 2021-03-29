@@ -5,3 +5,6 @@ class Player:
 
     def get_score(self):
         return self.score
+
+    def update_score(self, value):
+        self.score += value
