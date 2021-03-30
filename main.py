@@ -76,6 +76,6 @@ def hold(current_player):
 
 # COMPARE SCORES FUNCTION.
 def compare_scores():
-    size = playerDictionary.__len__()
-    for x in size: 
-        print(playerDictionary[x].score)
+    compare_helper = playerDictionary.__len__()
+    for x in range(compare_helper):
+        print(playerDictionary[x].score)  # Prints scores of all the players in order, can change when/how needed.
