@@ -70,7 +70,12 @@ def hold(current_player):
         current_player += 1
     else:
         pass
-        # switch to dealer
-        # Set the current player back to 0
+        # switch to dealer (dealer plays)
+        # Set the current player back to 0 (Why?)
 
-# compare scores
+
+# COMPARE SCORES FUNCTION.
+def compare_scores():
+    size = playerDictionary.__len__()
+    for x in size: 
+        print(playerDictionary[x].score)
