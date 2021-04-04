@@ -13,7 +13,7 @@ suitList = ["clubs", "diamonds", "hearts", "spades"]  # List of suits.
 valueDictionary = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7,
                    8: 8, 9: 9, 10: 10, 11: 10, 12: 10, 13: 10, 14: 11}  # How much each card is worth.
 # Need to make A worth 11 points (or 14 in list) automatically unless score > 21.
-
+# Add bust counter, if all players bust, no need for dealer to play.
 
 # CREATING PLAYER(S).
 inputCheck = False
@@ -92,7 +92,7 @@ def compare_scores():  # If you bust or have a lower score than dealer, you lose
                     score_list.append("Player " + str(_ + 1) + ": Win")
                 else:
                     score_list.append("Player " + str(_ + 1) + ": Loss")
-        else:
+        else:  # Add if dealer score is lower than player scores.
             if playerDictionary[i].score == 0:
                 score_list.append("Dealer Loss")
             elif playerDictionary[i].score >= 22:
