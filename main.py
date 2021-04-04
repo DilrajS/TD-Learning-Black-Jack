@@ -2,7 +2,7 @@ import Card
 import Dealer
 import Player
 import random
-import time
+# import time
 
 # IMPORTANT VARIABLES AND DICTIONARIES
 current_player = 0  # Keeps track of who is playing.
@@ -60,8 +60,6 @@ def generate_card():
 
     print("The card drawn is: " + str(c.value))
     playerDictionary[current_player].update_score(c.value)  # Updates player score.
-    print(current_player)
-    print(playerDictionary[current_player].get_score())
 
 
 # HIT FUNCTION.
@@ -70,21 +68,34 @@ def hit():
 
 
 # HOLD FUNCTION.
-def hold(current_player):
-    if current_player + 1 < playerDictionary.__len__():
-        current_player += 1
-    else:
-        pass
-        # we can make game end here.
-        # switch to dealer (dealer plays)
-        # Set the current player back to 0 (Why?)
+def hold():
+    global current_player
+    if current_player + 1 < numOfPlayers:  # If there is another player after the current player do this.
+        current_player += 1  # Switches to the next player
+        hit_check_helper()  # Calls hit_check_helper so next player can hit/hold.
+    else:  # If the last player chose to hold, do the following.
+        current_player += 1  # Switches to dealer (in the player library)
 
 
 # COMPARE SCORES FUNCTION.
-def compare_scores():
-    compare_helper = playerDictionary.__len__()
-    for x in range(compare_helper):
-        print(playerDictionary[x].score)  # Prints scores of all the players in order, can change when/how needed.
+def compare_scores():  # Currently checks if you've busted, else you win (need to add comparison with dealer)
+    score_list = []
+    for _ in range(numOfPlayers + 1):
+        if _ <= numOfPlayers:
+            if playerDictionary[_].score == 0:
+                score_list.append("Player " + str(_ + 1) + ": Loss")
+            elif playerDictionary[_].score >= 22:
+                score_list.append("Player " + str(_ + 1) + ": Loss")
+            else:
+                score_list.append("Player " + str(_ + 1) + ": Win")
+        else:
+            if playerDictionary[_].score == 0:
+                score_list.append("Dealer " + str(_ + 1) + ": Loss")
+            elif playerDictionary[_].score >= 22:
+                score_list.append("Dealer " + str(_ + 1) + ": Loss")
+            else:
+                score_list.append("Dealer " + str(_ + 1) + ": Win")
+    print(score_list)
 
 
 # GAME CODE.
@@ -94,39 +105,52 @@ playerDictionary[len(playerDictionary)] = dealer  # Puts the dealer last int he 
 # print(playerDictionary)
 
 # Give all players 2 cards (update points/score using 2 cards.)
-for x in range(len(playerDictionary) - 1):
+for x in range(numOfPlayers):
     generate_card()
     generate_card()
     print("Current score of Player " + str(x) + " is: " + str(playerDictionary[x].score))
     print("------------------------------------------------")
     current_player += 1
-
+print("All players have been dealt cards. Switching to Hit/Hold phase.")
 # Set current player back to 0 so we can go to Hit / Hold phase.
 current_player = 0
 hit_check = True
 
+
 def hit_check_helper():
+    global hit_check
+    global current_player
+    print("Current Player: " + str(current_player + 1) + " Current Score: " +
+          str(playerDictionary[current_player].get_score()))
     print("Enter 1 to hit and 0 to hold.")
     check_for_hit = int(input())
     if check_for_hit == 1:
         hit()
         if playerDictionary[current_player].get_score() > 21:
-            hit_check = False
-        hit_check_helper()
-        print(current_player)
-        print(playerDictionary[current_player].get_score())
-
+            print("New score is: " + str(playerDictionary[current_player].get_score()))
+            print("Bust. Switching player...")
+            playerDictionary[current_player].bust()
+            hold()
     elif check_for_hit == 0:
-        hold(playerDictionary[current_player])
-        hit_check = False
+        if current_player == len(playerDictionary):
+            hit_check = False
+        else:
+            hold()
     else:
+        print("Error: Only values of 1 and 0 are accepted.")
         hit_check_helper()
 
 
-while hit_check:
+while hit_check and current_player < len(playerDictionary) - 1:
     hit_check_helper()
 
-print(playerDictionary[current_player].get_score())
+# Dealer part
+while dealer.get_score() <= 17:  # Code for how the Dealer plays, if his score is < 17, heep hitting.
+    hit()
+    print("Dealer's score is: " + str(dealer.get_score()))
+if dealer.score > 21:  # If dealer hits over 21, it prints out Dealer busted.
+    print("Dealer bust.")
 
+compare_scores()  # Compares all the scores by calling the compare scores method
 
 # GUI.

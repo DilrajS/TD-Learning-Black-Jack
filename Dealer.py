@@ -8,3 +8,6 @@ class Dealer:
 
     def update_score(self, value):
         self.score += value
+
+    def bust(self):
+        self.score = 0
